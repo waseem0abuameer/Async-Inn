@@ -1,4 +1,6 @@
 using Inn_Management_System.Data;
+using Inn_Management_System.Models.Interfaces;
+using Inn_Management_System.Models.Servieces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -15,6 +17,7 @@ namespace Inn_Management_System
 {
     public class Startup
     {
+
         public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
@@ -30,6 +33,9 @@ namespace Inn_Management_System
                 string connectionString = Configuration.GetConnectionString("DefaultConnection");
                 options.UseSqlServer(connectionString);
             });
+            services.AddTransient<IHotel, HotelServieces>();
+            services.AddControllers();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

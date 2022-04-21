@@ -3,14 +3,16 @@ using Inn_Management_System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Inn_Management_System.Migrations
 {
     [DbContext(typeof(InnDbContext))]
-    partial class InnDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220421005740_AddStudentsTable1")]
+    partial class AddStudentsTable1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
