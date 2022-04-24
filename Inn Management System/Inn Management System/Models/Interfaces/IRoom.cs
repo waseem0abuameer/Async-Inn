@@ -8,7 +8,7 @@ namespace Inn_Management_System.Models.Interfaces
         Task<List<Room>> GetRooms();
         Task<Room> GetRoom(int id);
         Task<Room> Create(Room room);
-        Task Delete(int id);
+        Task DeleteRoom(int id);
         Task<Room> UpdateRoom(int id, Room room);
 
     }

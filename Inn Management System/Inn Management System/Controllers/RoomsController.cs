@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Inn_Management_System.Data;
 using Inn_Management_System.Models;
+using Inn_Management_System.Models.Servieces;
 using Inn_Management_System.Models.Interfaces;
 
 namespace Inn_Management_System.Controllers
@@ -26,14 +27,21 @@ namespace Inn_Management_System.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Room>>> GetRooms()
         {
-            return await _room.GetRooms();
+            var rooms = await _room.GetRooms();
+            return Ok(rooms);
         }
 
         // GET: api/Rooms/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Room>> GetRoom(int id)
         {
-            var room = await _room.GetRoom(id);
+            Room room = await _room.GetRoom(id);
+
+            if (room == null)
+            {
+                return NotFound();
+            }
+
             return Ok(room);
         }
 
@@ -46,8 +54,9 @@ namespace Inn_Management_System.Controllers
             {
                 return BadRequest();
             }
-            var modifiedRoom = await _room.UpdateRoom(id, room);
-            return Ok(modifiedRoom);
+
+            Room modefieroom = await _room.UpdateRoom(id, room);
+            return Ok(modefieroom);
         }
 
         // POST: api/Rooms
@@ -55,18 +64,18 @@ namespace Inn_Management_System.Controllers
         [HttpPost]
         public async Task<ActionResult<Room>> PostRoom(Room room)
         {
-            Room newRoom = await _room.Create(room);
-            return Ok(newRoom);
+            Room newroom = await _room.Create(room);
+            return Ok(newroom);
         }
 
         // DELETE: api/Rooms/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRoom(int id)
         {
-            await _room.Delete(id);
+            await _room.DeleteRoom(id);
             return NoContent();
-        }
 
-       
+
+        }
     }
 }

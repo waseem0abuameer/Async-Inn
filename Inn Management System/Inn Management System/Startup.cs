@@ -33,7 +33,11 @@ namespace Inn_Management_System
                 string connectionString = Configuration.GetConnectionString("DefaultConnection");
                 options.UseSqlServer(connectionString);
             });
+            services.AddTransient<IRoom, RoomRepository>();
+            services.AddTransient<IAmenities, AmenityServieces>();
+
             services.AddTransient<IHotel, HotelServieces>();
+        
             services.AddControllers();
 
         }
