@@ -3,18 +3,18 @@ using Inn_Management_System.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
 namespace Inn_Management_System.Models.Servieces
 {
     public class RoomRepository : IRoom
     {
         private readonly InnDbContext _context;
+        private HotelServieces context;
 
         public RoomRepository(InnDbContext context)
         {
             _context = context;
         }
-
+     
         public async Task<Room> Create(Room room)
         {
             _context.Entry(room).State = EntityState.Added;
@@ -33,7 +33,7 @@ namespace Inn_Management_System.Models.Servieces
             return room;
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteRoom(int id)
         {
             Room room = await GetRoom(id);
             _context.Entry(room).State = EntityState.Deleted;
