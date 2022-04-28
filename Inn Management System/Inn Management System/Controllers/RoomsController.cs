@@ -9,6 +9,7 @@ using Inn_Management_System.Data;
 using Inn_Management_System.Models;
 using Inn_Management_System.Models.Servieces;
 using Inn_Management_System.Models.Interfaces;
+using Inn_Management_System.Models.DTO;
 
 namespace Inn_Management_System.Controllers
 {
@@ -25,22 +26,16 @@ namespace Inn_Management_System.Controllers
 
         // GET: api/Rooms
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Room>>> GetRooms()
+        public async Task<ActionResult<IEnumerable<RoomsDto>>> GetRooms()
         {
-            var rooms = await _room.GetRooms();
-            return Ok(rooms);
+            return Ok(await _room.GetRooms());
         }
 
         // GET: api/Rooms/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Room>> GetRoom(int id)
+        public async Task<ActionResult<RoomsDto>> GetRoom(int id)
         {
-            Room room = await _room.GetRoom(id);
-
-            if (room == null)
-            {
-                return NotFound();
-            }
+            var room = await _room.GetRoom(id);
 
             return Ok(room);
         }
@@ -48,24 +43,24 @@ namespace Inn_Management_System.Controllers
         // PUT: api/Rooms/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRoom(int id, Room room)
+        public async Task<IActionResult> PutRoom(int id, RoomsDto room)
         {
             if (id != room.ID)
             {
                 return BadRequest();
             }
 
-            Room modefieroom = await _room.UpdateRoom(id, room);
-            return Ok(modefieroom);
+            var updatedRoom = await _room.UpdateRoom(id, room);
+            return Ok(updatedRoom);
         }
 
         // POST: api/Rooms
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Room>> PostRoom(Room room)
+        public async Task<ActionResult<Room>> PostRoom(RoomsDto room)
         {
-            Room newroom = await _room.Create(room);
-            return Ok(newroom);
+            await _room.CreateRoom(room);
+            return CreatedAtAction("GetRoom", new { id = room.ID }, room);
         }
 
         // DELETE: api/Rooms/5
@@ -76,6 +71,23 @@ namespace Inn_Management_System.Controllers
             return NoContent();
 
 
+        }
+
+        //Adds an amenity to a room
+        [HttpPost]
+        [Route("{roomId}/Amenity/{amenityId}")]
+        public async Task<IActionResult> AddAmenityToRoom(int roomId, int amenityId)
+        {
+            await _room.AddAmenityToRoom(roomId, amenityId);
+            return NoContent();
+        }
+        //removes an amenity from a room
+        [HttpDelete]
+        [Route("{roomId}/{amenityId}")]
+        public async Task<IActionResult> DeleteAmenityFromRoom(int roomId, int amenityId)
+        {
+            await _room.RemoveAmentityFromRoom(roomId, amenityId);
+            return NoContent();
         }
     }
 }
