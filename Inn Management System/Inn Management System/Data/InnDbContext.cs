@@ -12,6 +12,8 @@ namespace Inn_Management_System.Data
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
+        public DbSet<RoomAmenity> RoomAmenitys { get; set; }
+        public DbSet<HotelRoom> HotelRooms { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Hotel>()
@@ -32,7 +34,8 @@ namespace Inn_Management_System.Data
 
 
                          );
-
+            modelBuilder.Entity<HotelRoom>().HasKey(x => new { x.HotelID, x.RoomNumber });
+            modelBuilder.Entity<RoomAmenity>().HasKey(x => new { x.RoomID, x.AmenityID });
 
 
         }

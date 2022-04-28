@@ -38,7 +38,9 @@ namespace Inn_Management_System
 
             services.AddTransient<IHotel, HotelServieces>();
         
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(
+                opt=>opt.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
 
         }
 

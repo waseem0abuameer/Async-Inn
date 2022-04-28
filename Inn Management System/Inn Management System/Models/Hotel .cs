@@ -1,4 +1,6 @@
-﻿namespace Inn_Management_System.Models
+﻿using System.Collections.Generic;
+
+namespace Inn_Management_System.Models
 {
     public class Hotel
     {
@@ -9,6 +11,7 @@
         public string State { get; set; }
 
         public string Phone { get; set; }
+        public List<HotelRoom> HotelRooms { get; set; }
 
     }
 }

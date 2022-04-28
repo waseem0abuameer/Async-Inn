@@ -10,5 +10,7 @@ namespace Inn_Management_System.Models.Interfaces
         Task<Hotel> GetHotel(int id);
         Task<Hotel> UpdateHotel(int id, Hotel hotel);
         Task DeleteHotel(int id);
+         Task addRoomToHotel(int hotelid, int roomid);
+
     }
 }
