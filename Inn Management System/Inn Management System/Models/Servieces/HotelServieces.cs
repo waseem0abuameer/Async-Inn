@@ -31,15 +31,23 @@ namespace Inn_Management_System.Models.Servieces
        
         public async Task<Hotel> GetHotel(int id)
         {
-            Hotel hotel = await _context.Hotels.FindAsync(id);
-            return hotel;
+            //Hotel hotel = await _context.Hotels.FindAsync(id);
+            //return hotel;
+            return await _context.Hotels
+                .Include(hr=>hr.HotelRooms)
+                .ThenInclude(r=>r.Room)
+                .FirstOrDefaultAsync(x=>x.ID==id);
         }
 
         public async Task<List<Hotel>> GetHotels()
-        {
-            var hotels = await _context.Hotels.ToListAsync();
-            return hotels;
-        }
+{
+        //    var hotels = await _context.Hotels.ToListAsync();
+        //    return hotels;
+        return await _context.Hotels
+                .Include(hr=>hr.HotelRooms)
+                .ThenInclude(r=>r.Room)
+                .ToListAsync();
+    }
 
        
       
@@ -59,6 +67,16 @@ namespace Inn_Management_System.Models.Servieces
             
 
 
+        }
+        public async Task addRoomToHotel(int hotelid,int roomid)
+        {
+            HotelRoom hotelRoom=new HotelRoom {
+                HotelID = hotelid,
+                RoomID = roomid 
+            };
+            _context.Entry(hotelRoom).State= EntityState.Added;
+
+            await _context.SaveChangesAsync();
         }
     }
 }

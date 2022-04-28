@@ -2,13 +2,13 @@
 using Inn_Management_System.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 namespace Inn_Management_System.Models.Servieces
 {
     public class RoomRepository : IRoom
     {
         private readonly InnDbContext _context;
-        private HotelServieces context;
 
         public RoomRepository(InnDbContext context)
         {
@@ -23,14 +23,27 @@ namespace Inn_Management_System.Models.Servieces
         }
         public async Task<List<Room>> GetRooms()
         {
-            var rooms = await _context.Rooms.ToListAsync();
-            return rooms;
+            //var rooms = await _context.Rooms.ToListAsync();
+            //return rooms;
+            return await _context.Rooms
+        .Include(hr => hr.HotelRooms)
+        .ThenInclude(h => h.Hotel)
+        .ToListAsync();
+
         }
         public async Task<Room> GetRoom(int id)
         {
-            // The system knows we have a primary key and will use it
-            Room room = await _context.Rooms.FindAsync(id);
-            return room;
+            //The system knows we have a primary key and will use it
+            //Room room = await _context.Rooms.FindAsync(id);
+            //return room;
+
+           
+                 return await _context.Rooms
+                .Include(hr => hr.HotelRooms)
+                .ThenInclude(h => h.Hotel)
+                .FirstOrDefaultAsync(x => x.ID == id);
+
+
         }
 
         public async Task DeleteRoom(int id)

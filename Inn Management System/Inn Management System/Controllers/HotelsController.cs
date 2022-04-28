@@ -31,7 +31,7 @@ namespace Inn_Management_System.Controllers
             return Ok(hotels);
         }
 
-        // GET: api/Hotels/5
+        // GET: api/Hotels/1/1
         [HttpGet("{id}")]
         public async Task<ActionResult<Hotel>> GetHotel(int id)
         {
@@ -78,7 +78,13 @@ namespace Inn_Management_System.Controllers
            await _hotel.DeleteHotel(id);
             return NoContent();
         }
+        // add aroom to ahotel api/Hotels/5/1
+        [HttpPost("{HotelID}/{RoomID}")]
+        public async Task<ActionResult> AddRoomToHotel(int HotelID, int RoomID)
+        {
+            await _hotel.addRoomToHotel(HotelID, RoomID);
+            return NoContent();
+        }
 
-       
     }
 }
